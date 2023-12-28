@@ -1,0 +1,187 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+body{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  overflow-x: hidden;
+}
+a{
+  text-decoration: none;
+}
+
+.darkMode{
+  background: #2f2f2f;
+  color: white;
+}
+.whiteMode{
+  background: grey;
+  color: white;
+}
+.iconBlack{
+  filter: invert(100);
+}
+.header--btn--container *{
+  padding: 10px;
+  cursor: pointer;
+  font-size: 0.8em;
+  background: rgb(6, 6, 146);
+  margin-right: 10px;
+  border-radius: 5px;
+  transition: all;
+  transition-timing-function: linear;
+  transition-duration: .5s;
+}
+.header--btn--container *:last-child{
+  margin-right: 0;
+}
+.header--btn--container *:hover, .button--active{
+  background: rgb(3, 3, 230);
+}
+.banner--section{
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  border-radius: 15px;
+  /* box-shadow: 0 1px 1px 1px white; */
+}
+.glassEffect{
+  backdrop-filter: blur(10px);  
+  background: rgba(255, 255, 255, 0.4);
+  width: 100%; 
+  border-radius: 15px;
+  padding: 20px;
+}
+.circle--container div{
+  margin-right: 10px;
+  cursor: pointer;
+}
+.circle--container div:last-child{
+  margin-right: 0;
+}
+.songList--container{
+  margin-top: 20px;
+  border: 1px solid white;
+  padding: 20px 10px;
+  border-radius: 10px;
+}
+.searchIcon{
+  animation: searchIcon;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+.admin--form input{
+  width: 100%;
+  padding: 20px;
+  color: white;
+  border-radius: 10px;
+  outline-color: none;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  border: none;
+}
+.admin--form div{
+  padding: 10px 0;
+}
+.admin--form .button--container{
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+.addSong--div{
+  display: flex;
+  align-items: center;
+}
+.addSong--div div{
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+.addSong--div div:last-child{
+  margin-right: 0;
+}
+.addSong--div input{
+  margin-right: 5px;
+}
+.addSong--div input, .addSong--div label{
+  cursor: pointer;
+}
+.form--input-add--song {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.admin--form button{
+  cursor: pointer;
+  background: blue;
+  outline: 1px solid red;
+  outline-offset: 5px;
+  padding: 10px 20px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bolder;
+  transition: all;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in-out;
+  border: none;
+}
+.admin--form button:hover{
+  background: rgb(18, 18, 224);
+  outline-color: rgb(187, 41, 41);
+  /* filter: blur(); */
+}
+@keyframes searchIcon {
+  0%{
+    transform: scale(0.85);
+  }
+  50%{
+    transform: scale(1);
+  }
+  100%{
+    transform: scale(0.85);
+  }
+}
+@media screen and (max-width: 444px) {
+  .banner--section{
+    min-height: 50vh !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media screen and (max-width: 398px) {
+  .banner--section{
+    min-height: 35vh !important;
+  }
+  .header--btn--container *{
+    font-size: 0.63em;
+    padding: 8px;
+  }
+}
+
+@media screen and (min-width: 640px) {
+  .banner--section{
+    min-height: 80vh !important;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .songList--container--second--a{
+    font-size: 0.8em;
+  } 
+  .glassEffect h3{
+    font-size: 0.9em;
+  }
+  .artist--name{
+    font-size: 0.7em;
+  }
+}
+
+@media screen and (max-width: 280px) {
+  *{
+    display: none;
+  }
+}

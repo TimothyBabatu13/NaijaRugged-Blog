@@ -180,8 +180,40 @@ a{
   }
 }
 
-@media screen and (max-width: 280px) {
-  *{
-    display: none;
+@media screen and (max-width: 316px) {
+  .body--container{
+    padding: 0 5px !important;
+  }
+  header{
+    margin-bottom: 15px;
+  }
+  header img.header--logo{
+    width: 100px;
+  }
+  header p{
+    width: 20px;
+  }
+  .header--btn--container h3{
+    font-size: 8px;
+    margin-right: 5px;
+  }
+  .banner--section h3{
+    font-size: 12px;
+  }
+  .banner--section p{
+    font-size: 10px;
+  }
+  .banner--section .time--posted{
+    font-size: 10px;
+  }
+  .songList--container .songList--container--second--a{
+    font-size: 11px;
+  }
+  .songList--container .time--posted{
+    font-size: 12px;
+    margin-right: 5px !important;
+  }
+  .songList--container .no--of-votes{
+    font-size: 12px;
   }
 }

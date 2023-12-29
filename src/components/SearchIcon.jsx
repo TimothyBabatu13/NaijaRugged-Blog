@@ -7,7 +7,7 @@ const SearchIcon = (props)=>{
 
     const [text, setText] = useState("");
     
-    
+    console.log(text)
     const handleChange = (e)=>{
         setText(e.target.value);
     }
@@ -29,6 +29,7 @@ const SearchIcon = (props)=>{
                         placeholder="input artist's name or song title"
                         onChange={(e)=>{
                             handleChange(e);
+                            console.log(e)
                             props.handleSearchText(text)
                         }}
                         // onKeyUp={()=>props.handleType(text)} 

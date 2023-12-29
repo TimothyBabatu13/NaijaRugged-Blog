@@ -17,12 +17,14 @@ import AllData from './AllData';
 const createContextHook = createContext();
 
 function App() {
-  const [lastSavedCategory, setLastSaveCategory] = useState(null);
-  const[category, setCategory] = useState(lastSavedCategory||"songs");
+  const[category, setCategory] = useState(JSON.parse(localStorage.getItem("category"))||"songs");
   const [search, setSearch] = useState("")
   const [changeType, setChangeType] = useState(true)
-
-    // console.log(db)
+  const [mode, setMode] = useState(JSON.parse(window.localStorage.getItem("darkMode")) || ((window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light"));
+  
+  useEffect(()=>{
+    localStorage.setItem("category", JSON.stringify(category))
+  }, [category])
 
   const FetchData = ()=>{
     let data;
@@ -39,14 +41,6 @@ function App() {
   }
   
   
-  
-
-
-
-
-  // console.log(localStorage.getItem("darkMode"));
-  const [mode, setMode] = useState(localStorage.getItem("darkMode") || (window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light")
-  
   const changeMode = ()=>{
     setMode(prev=>{
       if(prev === "light"){
@@ -60,14 +54,12 @@ function App() {
   
   const handleChangeType = (e)=>{
     setCategory(e.target.innerHTML.toLowerCase());
-    setLastSaveCategory(e.target.innerHTML.toLowerCase());
   }
   
   useEffect(()=>{
-    return window.localStorage.setItem("darkMode", mode)
+    return window.localStorage.setItem("darkMode", JSON.stringify(mode))
   }, [mode])
-  
-  // console.log(localStorage.getItem("darkMode"))
+
   
   const provider  = {
     mode,
@@ -89,11 +81,11 @@ function App() {
   const handleContinue = ()=>{
     setChangeType(true)
   }
-  // console.log(provider)  
+  
   return (
     <createContextHook.Provider value={provider}>
       <BrowserRouter>
-        <div style={{"minHeight":"100vh", "padding": "0 25px 20px 25px"}} className={mode === "dark" ? "darkMode" : "whiteMode"}>
+        <div style={{"minHeight":"100vh", "padding": "0 25px 20px 25px"}} className={`${mode === "dark" ? "darkMode" : "whiteMode"} body--container`}>
           <Routes>
             <Route element={<Layout changeType={changeType} sendDataUp={sendDataUp}/>}>
               <Route path='/' element={<Home handleContinue={handleContinue} />}/>
@@ -110,5 +102,5 @@ function App() {
   )
 }
 
-export default { App, createContextHook}
+export default { App, createContextHook }
 // export default AppAndContext

@@ -1,6 +1,7 @@
 import Header from "./components/Header";
 import { Outlet } from "react-router-dom";
 import {Suspense } from "react";
+import Footer from "./components/Footer";
 // import LazyLoad from "./LazyLoad";
 // const SearchIcon = LazyLoad("./components/SearchIcon"); 
 import searchIcon from "./assets/icons/search.svg";
@@ -88,6 +89,7 @@ const Layout = (props)=>{
                     alt="search icon" 
                 />
             </div>
+            <Footer />
         </>
     )
 }

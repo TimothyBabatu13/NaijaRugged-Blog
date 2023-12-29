@@ -1,11 +1,12 @@
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
 import App from "../App";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import searchIcon from "../assets/icons/search.svg";
  
 const Header = (props)=>{
     const [text, setText] = useState("")
+    const ref = useRef(null)
     
     const context = App.createContextHook;
     const Context = useContext(context);
@@ -18,12 +19,18 @@ const Header = (props)=>{
         props.sendTextUp(text);
         setText("");
     }
-    
+
+    //handle onFocus for the input box whenever users click on floating search Icon
+    const handleFocus = () =>{
+        const input = ref.current;
+        input?.focus()
+    }
+    handleFocus();
     return(
         <>
             <header style={{"display":"flex", "justifyContent":"space-between", "alignItems":"center", "padding":"20px 0 0 0"}}>
-                <Link to="/"><img style={{"cursor":"pointer"}} src={logo} width="200px" alt="logo"/></Link>
-                <div onClick={Context.changeMode}  style={{"cursor":"pointer"}}>
+                <Link to="/"><img className="header--logo" style={{"cursor":"pointer"}} src={logo} width="200px" alt="logo"/></Link>
+                <div onClick={Context.changeMode}  style={{"cursor":"pointer", "display":"flex", "alignItems":"center"}}>
                     {Context.mode === "dark" ? <p style={{"fontSize":"23px"}}>&#9788;</p> : <p style={{"fontSize":"23px", "transform":"rotate(90deg)", "color":"white"}}>&#127769;</p> } 
                 </div>
                 {/* <img 
@@ -41,9 +48,10 @@ const Header = (props)=>{
                     style={{"width":"100%", "height": "25px"}} 
                     type="search" 
                     name="" 
-                    id="" 
+                    id="iii" 
                     onChange={handleChange}
                     value={text}
+                    ref={ref}
                 />
                 <img 
                     onClick={handleSubmit} 

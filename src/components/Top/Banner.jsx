@@ -34,7 +34,7 @@ const Banner = (props)=>{
                     />
                         <p className="artist--name">{props.artistName.length >= 10 ? `${props.artistName.slice(0, 9)}...`: props.artistName}</p>
                     </div>
-                    <div style={{"display":"flex", "alignItems":"center"}}>
+                    <div className="time--posted" style={{"display":"flex", "alignItems":"center"}}>
                         <p style={{"marginRight":"10px"}}>&#128345;</p>
                         {/* <img  src={clock} alt="time icon" /> */}
                         {props.timePosted}

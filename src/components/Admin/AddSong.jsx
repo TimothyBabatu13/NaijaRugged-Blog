@@ -94,7 +94,6 @@ const AddSong = ()=>{
     //work on handleSubmit later. I havent achieved what I want.
     const handleSubmit =  (e)=>{
         e.preventDefault();
-        toast.error("This is a toast")
         // const formArray = Object.fromEntries(form);
         // const formArray = Object.values(form);
         // console.log(formArray);

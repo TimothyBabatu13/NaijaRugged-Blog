@@ -3,15 +3,13 @@ import eyeSlash from "../../assets/icons/eye-slash.svg"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import firebaseConfig from "../../firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
+
 
 const Login = (props)=>{
-    const db = firebaseConfig.database;
-    
-    const database = collection(db, "users");
-
-
-    console.log(database)
     
     const [data, setData] = useState({
         email: "",
@@ -20,6 +18,10 @@ const Login = (props)=>{
     })
     
     const navigate = useNavigate();
+
+    const auth = getAuth();
+
+
 
     const handleChange = (e)=>{
         setData(prev =>({
@@ -41,13 +43,24 @@ const Login = (props)=>{
         e.preventDefault();
         const {email, password} = data
         console.log(email, password)
-        navigate("/dashboard")
+        
         // console.log("ho")
-        getDocs(database).then(x => console.log(x.docs.map(data=> data.data())))
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => { 
+            navigate("/dashboard")
+        })
+        .catch((error) => {
+            const errorMessage = error.message;
+            toast.error(errorMessage)
+        });
+
+
+        
     }
     
     return(
         <>
+            <ToastContainer />
             <form onSubmit={handleSubmit} className="admin--form" action="">
                 <div>
                     <input 

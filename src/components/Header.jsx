@@ -33,6 +33,7 @@ const Header = (props)=>{
                 <div onClick={Context.changeMode}  style={{"cursor":"pointer", "display":"flex", "alignItems":"center"}}>
                     {Context.mode === "dark" ? <p style={{"fontSize":"23px"}}>&#9788;</p> : <p style={{"fontSize":"23px", "transform":"rotate(90deg)", "color":"white"}}>&#127769;</p> } 
                 </div>
+                <Link to="/dashboard">Dashboard</Link>
                 {/* <img 
                     width="20px"
                     height="20px"

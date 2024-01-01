@@ -1,29 +1,40 @@
 import DashboardSong from "./DashboardSong";
 import {useNavigate} from "react-router-dom"
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import App from "../../App";
 import { useContext } from "react";
+import {getAuth, onAuthStateChanged} from "firebase/auth";
 
 import AddSong from "./AddSong";
 // const contextHook = App.createContextHook;
 
 // console.log(contextHook)
 const Dashboard = (props)=>{
+    const [userActive, setUserActive] = useState(false);
+    const navigate =  useNavigate()
+    const auth = getAuth();
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const uid = user.uid;
+    console.log(uid)
+    setUserActive(true)
+    // ...
+  } else {
+    setUserActive(false);
+   
+    return navigate("/admin")
+  }
+});
+if(!userActive){
+    return <h1>Loading</h1>
+}
     const contextHook = App.createContextHook;
     
 
     const thhh = useContext(contextHook)
     const Data = thhh.data[0]
     
-    const navigate =  useNavigate()
-    const isActive = true;
     
-    useEffect(()=>{
-        if(!isActive){
-            return navigate("/admin")
-        }
-    },[])
-
     
     const handleDelete = (e)=>{
         console.log("...initiating delete")

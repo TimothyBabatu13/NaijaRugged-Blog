@@ -1,6 +1,7 @@
 import Layout from './Layout';
 import './App.css'
 import { useEffect, useState } from 'react';
+//import { collection, getDocs, addDoc } from "firebase/firestore";
 // import LazyLoad from './LazyLoad';
 import Home from './components/Home';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -12,7 +13,7 @@ import Error from './components/Error';
 
 import AllData from './AllData';
 
-
+import Api from './components/Api';
 
 const createContextHook = createContext();
 
@@ -39,8 +40,36 @@ function App() {
     })
     return data;
   }
-  
-  
+  // useEffect(()=>{
+  //   Api.uploadFile()
+  // },[])
+  useEffect(()=>{
+    Api.readData("song").then(x => console.log(x))
+  }, [])
+  useEffect(()=>{
+    Promise.all([Api.readData("songs"), Api.readData("albums"), Api.readData("mixtapes"), Api.readData("videos")]).then(res=>{
+      res = [
+        {
+          type: "songs",
+          data: res[0]
+        },
+        {
+          type: "albums",
+          data: res[1]
+        },
+        {
+          type: "mixtapes",
+          data: res[2]
+        },
+        {
+          type: "videos",
+          data: res[3]
+        }
+      ]
+      //  res.forEach(item => console.log(item.type))
+       return res;
+    })
+  },[])
   const changeMode = ()=>{
     setMode(prev=>{
       if(prev === "light"){
@@ -56,6 +85,7 @@ function App() {
     setCategory(e.target.innerHTML.toLowerCase());
   }
   
+  //This section is dedicated to fetching data.
   useEffect(()=>{
     return window.localStorage.setItem("darkMode", JSON.stringify(mode))
   }, [mode])

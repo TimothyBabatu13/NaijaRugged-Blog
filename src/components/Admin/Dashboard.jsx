@@ -13,18 +13,20 @@ const Dashboard = (props)=>{
     const [userActive, setUserActive] = useState(false);
     const navigate =  useNavigate()
     const auth = getAuth();
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    const uid = user.uid;
-    console.log(uid)
-    setUserActive(true)
-    // ...
-  } else {
-    setUserActive(false);
-   
-    return navigate("/admin")
-  }
-});
+
+   useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+          const uid = user.uid;
+          console.log(uid)
+          setUserActive(true)
+          // ...
+        } else {
+          setUserActive(false);
+          return navigate("/admin")
+        }
+      });
+   },[])
 if(!userActive){
     return <h1>Loading</h1>
 }

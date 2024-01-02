@@ -47,6 +47,7 @@ const Login = (props)=>{
         // console.log("ho")
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => { 
+            console.log("This is right")
             navigate("/dashboard")
         })
         .catch((error) => {

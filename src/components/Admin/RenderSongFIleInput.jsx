@@ -1,10 +1,10 @@
 
-const RenderSongFIleInput = ({handleSelectSongFile}) => {
+const RenderSongFIleInput = ({handleSelectSongFile, accept}) => {
   return (
     <div style={{"margin":"10px 0"}}>
-                    <input onChange={handleSelectSongFile} type="file" accept=".mp3, audio/*" name="" id="audioFile" />
-                    <label htmlFor="audioFile">Audio file</label>
-                </div>
+      <input onChange={handleSelectSongFile} type="file" accept={accept ? ".mp3, audio/*": "video/*"} name="" id="audioFile" />
+      <label htmlFor="audioFile">{accept ? "Audio file" : "Movie file"}</label>
+    </div>
   )
 }
 

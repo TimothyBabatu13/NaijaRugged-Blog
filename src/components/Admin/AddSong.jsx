@@ -198,22 +198,49 @@ const AddSong = ()=>{
         form.songFile.forEach(item =>{
             toast.error("Uploading data to backend...Do not press anything");
             upLoadMusic(item, (downloadURL)=>{
-                upLoadImage(form.imgURL, (e)=> img = e)
-                u.push(downloadURL)
-                const dataToSend = {
-                    author: form.artist,
-                    title: form.title,
-                    timePosted: new Date().getDay(),
-                    voteNum: 1000,
-                    desc: form.description,
-                    link: u,
-                    typeof: form.type,
-                    img
-                }
-                Api.sendData(form.type, dataToSend)
+                // u.push(downloadURL)
+                // upLoadImage(form.imgURL, (e)=> img = e)
+                // u.push(downloadURL)
+                // const dataToSend = {
+                //     author: form.artist,
+                //     title: form.title,
+                //     timePosted: new Date().getDay(),
+                //     voteNum: 1000,
+                //     desc: form.description,
+                //     link: u,
+                //     typeof: form.type,
+                //     img
+                // }
+                // console.log(dataToSend)
+                // Api.sendData(form.type, dataToSend)
+                // toast.success("Data sent succesfully")
+                u.push(downloadURL);
+                upLoadImage(form.imgURL, (e)=>{
+                    img = e;
+                    const dataToSend = {
+                        author: form.artist,
+                        title: form.title,
+                        timePosted: new Date().getDay(),
+                        voteNum: 1000,
+                        desc: form.description,
+                        link: u,
+                        typeof: form.type,
+                        img
+                        }
+                        console.log(dataToSend)
+                        Api.sendData(form.type, dataToSend);
+                        toast.success("Data sent succesfully")
+                })
             })
         })
     }
+    const validate = ()=>{
+        for(let i in form){
+            if(form[i] === "") return true;
+        }
+        return false
+    }
+    // validate()
     return(
         <div>
             <ToastContainer position="top-right" />
@@ -270,13 +297,13 @@ const AddSong = ()=>{
                 </div>
                 <div>
                     {
-                        listOfTrack.map((item, id) =>(<RenderSongFIleInput key={id} handleSelectSongFile={handleSelectSongFile}/>))
+                        listOfTrack.map((item, id) =>(<RenderSongFIleInput key={id} accept={form.type === "videos" ? false : true} handleSelectSongFile={handleSelectSongFile}/>))
                     }
                     {form.type === "albums" ? <button style={{"display":"inline"}} onClick={addMoreSong}>Add More Song</button> : <></>} 
                 </div>
                 
                 <div>
-                    <input onChange={handleSelectImage} type="file" name="" id="imageFile" />
+                    <input onChange={handleSelectImage} accept="image/*" type="file" name="" id="imageFile" />
                     <label htmlFor="imageFile">Image File</label>
                 </div>
                 <div style={{"display":"flex", "alignItems":"center"}}>

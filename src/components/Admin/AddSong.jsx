@@ -7,8 +7,7 @@ import RenderSongFIleInput from "./RenderSongFIleInput";
 import {getStorage, uploadBytesResumable, ref, getDownloadURL} from "firebase/storage";
 
 const AddSong = ()=>{
-    // const context = App.createContextHook;
-    // const Context = useContext(context);
+    
     const [display, setDisplay] = useState(false);
     const [listOfTrack, setListOfTrack] = useState(['a']);
     const [form, setForm] = useState({
@@ -113,11 +112,15 @@ const AddSong = ()=>{
             toast.error("One of the fields is empty. Please fill it and submit again");
             return;
         }
+        if(form.type === "albums"){
+            toast.error("You can't upload to album section. We're still implementing this feature");
+            return
+        }
         const u = [];
         let img;
         form.songFile.forEach(item =>{
             toast.error("Uploading data to backend...Do not press anything");
-            upLoadMusic(item, (downloadURL)=>{
+            return upLoadMusic(item, (downloadURL)=>{
                 u.push(downloadURL);
                 upLoadImage(form.imgURL, (e)=>{
                     img = e;
@@ -136,7 +139,7 @@ const AddSong = ()=>{
                             Api.sendData(form.type, dataToSend);
                             toast.success("Data sent succesfully");
                         }
-                        return sendDataNow();
+                        sendDataNow();
                 })
             })
         })

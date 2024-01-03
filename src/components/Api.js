@@ -5,7 +5,10 @@ import {getStorage, uploadBytesResumable, ref, getDownloadURL} from "firebase/st
 const db = firebaseConfig.database;
 const colRef = (ref) => collection(db, ref)
 
-const readData = (ref)=>getDocs(colRef(ref)).then(x => (x.docs.map(data=> data.data())));
+const readData = (ref)=>getDocs(colRef(ref)).then(x => (x.docs.map(data=> ({
+  data: data.data(),
+  id: data.id
+}))));
 const sendData = (ref, data)=> {
     addDoc(colRef(ref), data).then(data => console.log("succesful",data))
     .catch(err => (err))

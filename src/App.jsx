@@ -22,7 +22,7 @@ function App() {
   const [search, setSearch] = useState("")
   const [changeType, setChangeType] = useState(true)
   const [mode, setMode] = useState(JSON.parse(window.localStorage.getItem("darkMode")) || ((window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light"));
-  
+  const [data, setData] = useState([])
   useEffect(()=>{
     localStorage.setItem("category", JSON.stringify(category))
   }, [category])
@@ -35,41 +35,20 @@ function App() {
         data = item.details
         
       }
-      // console.log(data)
       
     })
     return data;
   }
-  // useEffect(()=>{
-  //   Api.uploadFile()
-  // },[])
+  console.log(FetchData())
+
   useEffect(()=>{
-    Api.readData("song").then(x => console.log(x))
-  }, [])
-  useEffect(()=>{
-    Promise.all([Api.readData("songs"), Api.readData("albums"), Api.readData("mixtapes"), Api.readData("videos")]).then(res=>{
-      res = [
-        {
-          type: "songs",
-          data: res[0]
-        },
-        {
-          type: "albums",
-          data: res[1]
-        },
-        {
-          type: "mixtapes",
-          data: res[2]
-        },
-        {
-          type: "videos",
-          data: res[3]
-        }
-      ]
-      //  res.forEach(item => console.log(item.type))
-       return res;
-    })
-  },[])
+    Api.readData(category).then(x => {
+      console.log(x);
+      setData(x)
+      return x;
+    });
+  }, [category])
+
   const changeMode = ()=>{
     setMode(prev=>{
       if(prev === "light"){
@@ -99,6 +78,7 @@ function App() {
     data: FetchData(),
     searchName: search,
     changeType,
+    realData: data
 
   }
 

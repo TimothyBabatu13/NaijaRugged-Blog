@@ -4,13 +4,25 @@ import App from "../../App";
 import RecommendedSong from "./RecommendedSong";
 
 const ViewSong = (props)=>{
+    
     const context = App.createContextHook;
     const Context = useContext(context);
     
-    const Data = Context.data[0]
+    const Data = Context.realData;
     const params = useParams();
+    const [data, setData] = useState([]);
+    console.log(Data)
     const {id, type} = params;
-    
+    console.log(id)
+    const FilterSong = (id) =>{
+        return Data.filter(item => item.id == id)
+    }
+    console.log(FilterSong(id))
+    useEffect(()=>{
+        setData(FilterSong(id))
+      
+    },[])
+    console.log(data)
     const getInformation = ()=>{
         props.handleStop()
     }
@@ -23,12 +35,14 @@ const ViewSong = (props)=>{
         })
     }
 
+   
     useEffect(()=>{
         window.scrollTo(0,0)
     },[])
 
-    const [data, setData] = useState(Data[id]);
-
+    
+    
+    console.log(data)
     const filterRelatedSongs = ()=>{
         const arrayOfData = [];
         for(let i = 0; i < Data.length; i++){
@@ -41,14 +55,14 @@ const ViewSong = (props)=>{
     }
 
     const navigate = useNavigate();
-
+console.log(data)
     const handleNavigation = (e, id)=>{
        navigate(`/view/${e}/${id}`)
        setData(Data[id])
        window.scrollTo(0,0)
     }
 
-    
+    console.log(data[0]?.data.author)
     const RelatedSongs = ()=>{
         const result = filterRelatedSongs();
         return(
@@ -74,10 +88,10 @@ const ViewSong = (props)=>{
             
         )
     }
-    
+    return <h1>This works as well</h1>
     if(Context.category === "albums"){
         return <div className="album">
-            <p>{data.author} titled {data.title}</p>
+            <p>{data[0]?.data.author} titled {data[0]?.data.title}</p>
             <img style={{"marginTop":"10px", "marginBottom":"10px", "borderRadius":"10px", "minHeight":"250px"}} src={data.img} alt={data.title} width="100%"  />
             <h5 style={{"alignContent":"center", "marginBottom":"10px"}}>{data.desc}</h5>
             
@@ -91,20 +105,20 @@ const ViewSong = (props)=>{
                 ))
             }
             <button onClick={handleDownload} style={{"margin":"auto", "marginTop":"15px", "display":"flex"}}>Download All Tracks</button>
-            {RelatedSongs()}
+            {/* {RelatedSongs()} */}
         </div>
     }
     if(Context.category === "songs" || Context.category === "mixtapes"){
         return(
             <div>
-                <p>{data.author} titled {data.title}</p>
-                <img style={{"marginTop":"10px", "marginBottom":"10px", "borderRadius":"10px", "minHeight":"250px"}} src={data.img} alt={data.title} width="100%"  />
-                <h5 style={{"alignContent":"center", "marginBottom":"10px"}}>{data.desc}</h5>
+                <p>{data[0]?.data.author} titled {data[0]?.data.title}</p>
+                <img style={{"marginTop":"10px", "marginBottom":"10px", "borderRadius":"10px", "minHeight":"250px"}} src={data[0]?.data.img} alt={data[0]?.data.title} width="100%"  />
+                <h5 style={{"alignContent":"center", "marginBottom":"10px"}}>{data[0]?.data.desc}</h5>
                 <div style={{"display":"flex", "justifyContent":"center"}}>
-                    <audio controls src={data.link}></audio>
+                    <audio controls src={data[0].data.link}></audio>
                 </div>
-                <a style={{"display":"flex","justifyContent":"center", "marginTop":"15px"}} download href={data.link}>Download</a>
-                {RelatedSongs()}
+                <a style={{"display":"flex","justifyContent":"center", "marginTop":"15px"}} download href={data[0]?.data.link}>Download</a>
+                {/* {RelatedSongs()} */}
             </div>
         )
     }
@@ -115,7 +129,7 @@ const ViewSong = (props)=>{
             <img style={{"marginTop":"15px"}} width="100%" src={data.img} alt={data.desc} />
             {data.dec}
             <a style={{"display":"block", "marginTop":"10px", "textAlign":"center"}} download href={data.link}>Download</a>
-            {RelatedSongs()}
+            {/* {RelatedSongs()} */}
             </div>
             
             

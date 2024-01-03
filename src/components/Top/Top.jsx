@@ -24,7 +24,7 @@ const Top = ()=>{
     useEffect(()=>{
         const timeId = setTimeout(()=>{
           setNumber(prev =>{
-            if(prev === DataToDisplay.length - 1) return 0
+            if(prev === DataToDisplay().length - 1) return 0
             return prev + 1;
           })
           

@@ -7,9 +7,9 @@ const AllSOngs = ()=>{
     
     const data = App.createContextHook;
     const context = useContext(data);
+    console.log(context.realData)
     
-    let Data = context.data[0];
-
+    let Data = context.realData;
     const category = context.category;
    
     const searchFromData = (text)=>{
@@ -49,21 +49,21 @@ const AllSOngs = ()=>{
 
     const downVote = (e)=> updateData(e, false)
     
-    const listSong = Data.map((item, id)=>(
+    const listSong = Data.map((data)=>(
         // <Link to={`/view_song/${item.id}`} key={id}>
             <SongList
-                key={id}
+                key={data.id}
                 category={category}
-                id={id}
-                banner={item?.img}
-                name={item?.author}
-                title={item?.title}
-                type={item?.type}
-                time={item?.timePosted}
-                voteCount={isVote[id].voteNum}
-                upvote={!isVote[id].status ? upVote : downVote}
+                id={data.id}
+                banner={data?.data?.img}
+                name={data?.data?.author}
+                title={data?.data?.title}
+                type={data?.data?.type}
+                time={data?.data?.timePosted}
+                // voteCount={isVote[id].voteNum}
+                // upvote={!isVote[id].status ? upVote : downVote}
                 darkMode={context?.mode}
-                showIcon={!isVote[id]?.status}
+                // showIcon={!isVote[id]?.status}
             />
         // </Link>
       ))

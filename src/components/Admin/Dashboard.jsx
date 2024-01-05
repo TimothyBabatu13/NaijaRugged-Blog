@@ -15,8 +15,6 @@ const Dashboard = (props)=>{
    useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
         if (user) {
-          const uid = user.uid;
-          console.log(uid)
           setUserActive(true);
           Api.readData("songs").then(item => setData(item))
           // ...

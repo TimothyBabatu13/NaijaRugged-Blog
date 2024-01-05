@@ -1,5 +1,5 @@
 import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import App from "../App";
 import { useContext, useRef, useState } from "react";
 import searchIcon from "../assets/icons/search.svg";
@@ -7,7 +7,7 @@ import searchIcon from "../assets/icons/search.svg";
 const Header = (props)=>{
     const [text, setText] = useState("")
     const ref = useRef(null)
-    
+    const navigate = useNavigate();    
     const context = App.createContextHook;
     const Context = useContext(context);
     // console.log(Context.data)
@@ -18,6 +18,11 @@ const Header = (props)=>{
         if(!text) return
         props.sendTextUp(text);
         setText("");
+    }
+
+    const navigateAndHandleProps = (e)=>{
+        Context.handleChangeType(e)
+        navigate("/")
     }
 
     //handle onFocus for the input box whenever users click on floating search Icon
@@ -62,10 +67,10 @@ const Header = (props)=>{
                 />
             </div>
             <div style={{"display":"flex", "alignItems":"center", "paddingBottom":"20px"}} className="header--btn--container">
-                <h3 onClick={props.changeType ? Context.handleChangeType : null} className={Context.category === "albums" ? "button--active" : null}>Albums</h3>
-                <h3 onClick={props.changeType ? Context.handleChangeType : null} className={Context.category === "songs" ? "button--active" : null}>Songs</h3>
-                <h3 onClick={props.changeType ? Context.handleChangeType : null} className={Context.category === "mixtapes" ? "button--active" : null}>Mixtapes</h3>
-                <h3 onClick={props.changeType ? Context.handleChangeType : null} className={Context.category === "videos" ? "button--active" : null}>Videos</h3>
+                <h3 onClick={props.changeType ? navigateAndHandleProps : null} className={Context.category === "albums" ? "button--active" : null}>Albums</h3>
+                <h3 onClick={props.changeType ? navigateAndHandleProps : null} className={Context.category === "songs" ? "button--active" : null}>Songs</h3>
+                <h3 onClick={props.changeType ? navigateAndHandleProps : null} className={Context.category === "mixtapes" ? "button--active" : null}>Mixtapes</h3>
+                <h3 onClick={props.changeType ? navigateAndHandleProps : null} className={Context.category === "videos" ? "button--active" : null}>Videos</h3>
             </div>
         </>
     )

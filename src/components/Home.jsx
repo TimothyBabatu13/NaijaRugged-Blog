@@ -2,15 +2,12 @@ import Top from "./Top/Top";
 import AllSOngs from "./ListSongs/AllSongs";
 import App from "../App";
 import { useContext } from "react";
-const Home = (props)=>{
+const Home = ()=>{
     
     const context = App.createContextHook;
     const Context = useContext(context);
 
-    const doThis = ()=>{
-        props.handleContinue();
-    }
-    doThis()
+  
 
     // console.log(Context.data[0][1]);
 

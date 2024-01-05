@@ -4,7 +4,7 @@ import App from "../../App";
 import RecommendedSong from "./RecommendedSong";
 import Api from "../Api";
 
-const ViewSong = (props)=>{
+const ViewSong = ()=>{
     const [data, setData] = useState([]);
     const [relatedData, setRelatedData] = useState([]);
     const params = useParams();
@@ -36,11 +36,7 @@ const ViewSong = (props)=>{
 
     const context = App.createContextHook;
     const Context = useContext(context);
-    
-    const getInformation = ()=>{
-        props.handleStop()
-    }
-    
+
 
     const handleDownload = ()=>{
         const allSOng = document.querySelectorAll("div.album a");

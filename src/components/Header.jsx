@@ -22,6 +22,7 @@ const Header = (props)=>{
 
     const navigateAndHandleProps = (e)=>{
         Context.handleChangeType(e)
+        if(window.location.href.match("/dashboard")?.index) return;
         navigate("/")
     }
 

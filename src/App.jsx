@@ -39,11 +39,10 @@ function App() {
     })
     return data;
   }
-  console.log(FetchData())
+
 
   useEffect(()=>{
     Api.readData(category).then(x => {
-      console.log(x);
       setData(x)
       return x;
     });

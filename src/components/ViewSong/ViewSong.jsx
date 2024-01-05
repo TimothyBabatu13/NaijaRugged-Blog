@@ -2,31 +2,45 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import App from "../../App";
 import RecommendedSong from "./RecommendedSong";
+import Api from "../Api";
 
 const ViewSong = (props)=>{
+    const [data, setData] = useState([]);
+    const [relatedData, setRelatedData] = useState([]);
+    const params = useParams();
+    const {id} = params;
+
+    useEffect(()=>{
+        Api.readData("songs").then(x => {
+            setRelatedData(x)
+            return x;
+          }).then(data =>{
+            setData((data.filter(item => item.id === id))[0])
+          });
+    },[])
     
+    const filterRelatedSongs = ()=>{
+        const arrayOfData = [];
+        for(let i = 0; i < relatedData.length; i++){
+            if(relatedData[i]?.data.author.match(data?.data?.author) || relatedData[i]?.data.title.match(data?.data?.title)){
+                arrayOfData.push(relatedData[i]);
+            }
+        }
+        const dataToReturn = arrayOfData.filter(item => item.id !== id);
+        return dataToReturn
+    }
+
+    useEffect(()=>{
+        window.scrollTo(0,0)
+    },[])
+
     const context = App.createContextHook;
     const Context = useContext(context);
     
-    const Data = Context.realData;
-    const params = useParams();
-    const [data, setData] = useState([]);
-    console.log(Data)
-    const {id, type} = params;
-    console.log(id)
-    const FilterSong = (id) =>{
-        return Data.filter(item => item.id == id)
-    }
-    console.log(FilterSong(id))
-    useEffect(()=>{
-        setData(FilterSong(id))
-      
-    },[])
-    console.log(data)
     const getInformation = ()=>{
         props.handleStop()
     }
-    getInformation()
+    
 
     const handleDownload = ()=>{
         const allSOng = document.querySelectorAll("div.album a");
@@ -36,33 +50,17 @@ const ViewSong = (props)=>{
     }
 
    
-    useEffect(()=>{
-        window.scrollTo(0,0)
-    },[])
-
     
-    
-    console.log(data)
-    const filterRelatedSongs = ()=>{
-        const arrayOfData = [];
-        for(let i = 0; i < Data.length; i++){
-            if(Data[i].author.match(data.author) || Data[i].title.match(data.title)){
-                arrayOfData.push(Data[i]);
-            }
-        }
-        const dataToReturn = arrayOfData.filter(item => parseInt(item.id) !== parseInt(id))
-        return dataToReturn;
-    }
-
     const navigate = useNavigate();
-console.log(data)
+// console.log(data)
     const handleNavigation = (e, id)=>{
        navigate(`/view/${e}/${id}`)
        setData(Data[id])
        window.scrollTo(0,0)
     }
 
-    console.log(data[0]?.data.author)
+    filterRelatedSongs().map(item=> console.log(item.data))
+    // console.log(data[0]?.data.author)
     const RelatedSongs = ()=>{
         const result = filterRelatedSongs();
         return(
@@ -73,11 +71,11 @@ console.log(data)
                         handleNavigate={()=>handleNavigation(Context.category, item.id)}
                         category={Context.category}
                         id={item.id}
-                        banner={item?.img}
-                        name={item?.author}
-                        title={item?.title}
-                        type={item?.type}
-                        time={item?.timePosted}
+                        banner={item?.data?.img}
+                        name={item?.data?.author}
+                        title={item?.data?.title}
+                        type={item?.data?.type}
+                        time={item?.data?.timePosted}
                         // voteCount={isVote[id].voteNum}
                         // upvote={!isVote[id].status ? upVote : downVote}
                         darkMode={context?.mode}
@@ -88,10 +86,10 @@ console.log(data)
             
         )
     }
-    return <h1>This works as well</h1>
+
     if(Context.category === "albums"){
         return <div className="album">
-            <p>{data[0]?.data.author} titled {data[0]?.data.title}</p>
+            <p>{data?.data.author} titled {data?.data.title}</p>
             <img style={{"marginTop":"10px", "marginBottom":"10px", "borderRadius":"10px", "minHeight":"250px"}} src={data.img} alt={data.title} width="100%"  />
             <h5 style={{"alignContent":"center", "marginBottom":"10px"}}>{data.desc}</h5>
             
@@ -110,15 +108,15 @@ console.log(data)
     }
     if(Context.category === "songs" || Context.category === "mixtapes"){
         return(
-            <div>
-                <p>{data[0]?.data.author} titled {data[0]?.data.title}</p>
-                <img style={{"marginTop":"10px", "marginBottom":"10px", "borderRadius":"10px", "minHeight":"250px"}} src={data[0]?.data.img} alt={data[0]?.data.title} width="100%"  />
-                <h5 style={{"alignContent":"center", "marginBottom":"10px"}}>{data[0]?.data.desc}</h5>
+            data && <div>
+                <p>{data?.data?.author} - {data?.data?.title}</p>
+                <img style={{"marginTop":"10px", "marginBottom":"10px", "borderRadius":"10px", "minHeight":"250px"}} src={data?.data?.img} alt={data?.data?.title} width="100%"  />
+                <h5 style={{"alignContent":"center", "marginBottom":"10px"}}>{data?.data?.desc}</h5>
                 <div style={{"display":"flex", "justifyContent":"center"}}>
-                    <audio controls src={data[0].data.link}></audio>
+                    <audio controls src={data?.data?.link}></audio>
                 </div>
-                <a style={{"display":"flex","justifyContent":"center", "marginTop":"15px"}} download href={data[0]?.data.link}>Download</a>
-                {/* {RelatedSongs()} */}
+                <a style={{"display":"flex","justifyContent":"center", "marginTop":"15px"}} download href={data?.data?.link}>Download</a>
+                {RelatedSongs()}
             </div>
         )
     }

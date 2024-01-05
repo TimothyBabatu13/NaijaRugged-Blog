@@ -1,25 +1,24 @@
 import DashboardSong from "./DashboardSong";
 import {useNavigate} from "react-router-dom"
-import { useEffect, useRef, useState } from "react";
-import App from "../../App";
-import { useContext } from "react";
+import { useEffect, useState } from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
-
+import Api from "../Api";
 import AddSong from "./AddSong";
-// const contextHook = App.createContextHook;
 
-// console.log(contextHook)
 const Dashboard = (props)=>{
+
     const [userActive, setUserActive] = useState(false);
+    const [data, setData] = useState([]);
     const navigate =  useNavigate()
     const auth = getAuth();
-
+    
    useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
         if (user) {
           const uid = user.uid;
           console.log(uid)
-          setUserActive(true)
+          setUserActive(true);
+          Api.readData("songs").then(item => setData(item))
           // ...
         } else {
           setUserActive(false);
@@ -30,15 +29,8 @@ const Dashboard = (props)=>{
 if(!userActive){
     return <h1>Loading</h1>
 }
-    const contextHook = App.createContextHook;
     
-
-    const thhh = useContext(contextHook)
-    const Data = thhh.data[0]
-    
-    
-    
-    const handleDelete = (e)=>{
+    const handleDelete = (id)=>{
         console.log("...initiating delete")
 
     }
@@ -46,13 +38,13 @@ if(!userActive){
         console.log(e)
     }
 
-    const elements = Data.map((element, id)=>(
+    const elements = data.map((element)=>(
         <DashboardSong 
-            key={id}
-            banner={element.img}
-            type={element.type}
-            name={element.author}
-            title={element.title}
+            key={element.id}
+            banner={element?.data?.img}
+            type={element?.data?.type}
+            name={element?.data?.author}
+            title={element?.data?.title}
             darkMode={props.darkMode}
             handleEdit = {()=>handleEdit(element.id)}
             handleDelete = {()=>handleDelete(element.id)}

@@ -1,5 +1,5 @@
 import logo from "../assets/logo.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import App from "../App";
 import { useContext, useRef, useState } from "react";
 import searchIcon from "../assets/icons/search.svg";

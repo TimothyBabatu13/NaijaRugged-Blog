@@ -1,5 +1,5 @@
 import logo from "../assets/logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import App from "../App";
 import { useContext, useRef, useState } from "react";
 import searchIcon from "../assets/icons/search.svg";
@@ -39,7 +39,7 @@ const Header = (props)=>{
                 <div onClick={Context.changeMode}  style={{"cursor":"pointer", "display":"flex", "alignItems":"center"}}>
                     {Context.mode === "dark" ? <p style={{"fontSize":"23px"}}>&#9788;</p> : <p style={{"fontSize":"23px", "transform":"rotate(90deg)", "color":"white"}}>&#127769;</p> } 
                 </div>
-                <Link to="/dashboard">Dashboard</Link>
+            
                 {/* <img 
                     width="20px"
                     height="20px"

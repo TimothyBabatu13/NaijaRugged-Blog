@@ -2,20 +2,23 @@ import SongList from "./SongList"
 import { useState } from "react"
 import App from "../../App"
 import { useContext } from "react"
+import loadingImage from "../../assets/mona-loading-dark-7701a7b97370.gif"
 
 const AllSOngs = ()=>{
     
     const data = App.createContextHook;
     const context = useContext(data);
-    console.log(context.realData)
     
     let Data = context.realData;
     const category = context.category;
-   
+    
+    if(!Data.length){
+        return <img src={loadingImage} alt="loading image" />
+    }
     const searchFromData = (text)=>{
         const newData = [];
         for(let i = 0; i < Data.length; i++){
-            if(Data[i].author.toLowerCase().match(text) || Data[i].title.toLowerCase().match(text)){
+            if(Data[i]?.data.author.toLowerCase().match(text) || Data[i]?.data.title.toLowerCase().match(text)){
                 newData.push(Data[i]);
             }
         }
@@ -26,8 +29,8 @@ const AllSOngs = ()=>{
     const txt = context.searchName.toLowerCase();
     txt && (Data = searchFromData(txt));
 
-    const [vote, setVote] = useState(Data)
-    const [isVote, setIsVote] = useState(vote.map(item => ({status:false, voteNum: item.voteNum, id: item.id})));
+    // const [vote, setVote] = useState(Data)
+    // const [isVote, setIsVote] = useState(vote.map(item => ({status:false, voteNum: item.voteNum, id: item.id})));
     
     const updateData = (e, add)=>{
         setIsVote(prev =>{

@@ -3,7 +3,7 @@ import Song from "./Song";
 import Video from "./Video";
 import Mixtapes from "./Mixtapes";
 
-
+console.log("hi")
 const AllData = [
     {
         type: "albums",

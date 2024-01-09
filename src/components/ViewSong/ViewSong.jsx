@@ -18,7 +18,7 @@ const ViewSong = ()=>{
             setData((data.filter(item => item.id === id))[0])
           });
     },[])
-    
+
     const filterRelatedSongs = ()=>{
         const arrayOfData = [];
         for(let i = 0; i < relatedData.length; i++){
@@ -45,18 +45,13 @@ const ViewSong = ()=>{
         })
     }
 
-   
-    
     const navigate = useNavigate();
-// console.log(data)
     const handleNavigation = (e, id)=>{
        navigate(`/view/${e}/${id}`)
-       setData(Data[id])
+       setData(relatedData.filter(item => item.id === id)[0])
        window.scrollTo(0,0)
     }
 
-    filterRelatedSongs().map(item=> console.log(item.data))
-    // console.log(data[0]?.data.author)
     const RelatedSongs = ()=>{
         const result = filterRelatedSongs();
         return(

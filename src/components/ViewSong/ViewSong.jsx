@@ -3,19 +3,22 @@ import { useEffect, useState, useContext } from "react";
 import App from "../../App";
 import RecommendedSong from "./RecommendedSong";
 import Api from "../Api";
-
+import loadingImage from "../../assets/mona-loading-dark-7701a7b97370.gif"
 const ViewSong = ()=>{
     const [data, setData] = useState([]);
     const [relatedData, setRelatedData] = useState([]);
     const params = useParams();
     const {id} = params;
+    const [isLoading, setIsLoading] = useState(true);
 
+   
     useEffect(()=>{
         Api.readData("songs").then(x => {
             setRelatedData(x)
             return x;
           }).then(data =>{
             setData((data.filter(item => item.id === id))[0])
+            setIsLoading(false)
           });
     },[])
 
@@ -29,7 +32,7 @@ const ViewSong = ()=>{
         const dataToReturn = arrayOfData.filter(item => item.id !== id);
         return dataToReturn
     }
-
+    
     useEffect(()=>{
         window.scrollTo(0,0)
     },[])
@@ -78,6 +81,10 @@ const ViewSong = ()=>{
         )
     }
 
+    if(isLoading){
+        return <img src={loadingImage} alt="loading image" />
+    }
+     
     if(Context.category === "albums"){
         return <div className="album">
             <p>{data?.data.author} titled {data?.data.title}</p>
@@ -111,6 +118,7 @@ const ViewSong = ()=>{
             </div>
         )
     }
+
     return(
         <>
             <div style={{}}>   

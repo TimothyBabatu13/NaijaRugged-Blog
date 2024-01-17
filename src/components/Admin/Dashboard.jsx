@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import Api from "../Api";
 import AddSong from "./AddSong";
-import { doc, deleteDoc} from "firebase/firestore";
+import { doc, deleteDoc, onSnapshot, collection} from "firebase/firestore";
 import firebaseConfig from "../../firebaseConfig";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,16 +16,23 @@ const Dashboard = (props)=>{
     const navigate =  useNavigate()
     const auth = getAuth();
     const db = firebaseConfig.database;
+    const mySongs = collection(db, "songs");
 
-
+    const realTimeUpdate = ()=>{
+        onSnapshot(mySongs, (result)=>{
+            const data = result.docs.map(item => ({id: item.id, data: item.data()}));
+           setData(data)
+        })    
+    }
    useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
         if (user) {
           setUserActive(true);
-          Api.readData("songs").then(item => {
-            console.log(item)
-            setData(item)
-        })
+          realTimeUpdate();
+        //   Api.readData("songs").then(item => {
+        //     console.log(item)
+        //     setData(item)
+        // })
           // ...
         } else {
           setUserActive(false);
@@ -33,6 +40,14 @@ const Dashboard = (props)=>{
         }
       });
    },[])
+
+//    useEffect(()=>{
+//     onSnapshot(mySongs, (result)=>{
+//         const data = result.docs.map(item => ({id: item.id, data: item.data()}));
+//        setData(data)
+//     })
+//    }, [])
+//    console.log(data)
 if(!userActive){
     return <h1>Loading</h1>
 }

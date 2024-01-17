@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import Api from "../Api";
 import App from "../../App";
 import { ToastContainer, toast } from "react-toastify";
@@ -19,6 +19,10 @@ const AddSong = ()=>{
         description: "",
         type: ""
     })
+    const [number, setNumber] = useState({
+        image: 0,
+        song: 0
+    });
 
     function checkIfNotEmpty(obj) {
         for (let key in obj) {
@@ -65,6 +69,10 @@ const AddSong = ()=>{
         (snapshot) => {
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log('Upload is ' + progress + '% done');
+            setNumber(prev =>({
+                ...prev,
+                song: progress
+            })); 
         }, 
         (error) => {
             console.log(error)
@@ -77,6 +85,7 @@ const AddSong = ()=>{
         }
         );
     }
+    
 
     const upLoadImage = (data, doThis)=>{
         const storage = getStorage();
@@ -86,6 +95,10 @@ const AddSong = ()=>{
         uploadTask.on('state_changed', 
         (snapshot) => {
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setNumber(prev =>({
+                ...prev,
+                image: progress
+            }));
             console.log('Upload is ' + progress + '% done');
         }, 
         (error) => {
@@ -218,6 +231,11 @@ const AddSong = ()=>{
                     <button style={{"display":"block", "marginTop":"10px", "padding":"10px 15px", "cursor":"pointer", "background":"red", "color":"white" ,"border":"none", "borderRadius":"5px"}} onClick={()=> setDisplay(prev => !prev)}>Close</button>
                 </div>
                 {/* <button onClick={upLoadAll}>Upload All</button> */}
+                <div>
+                    Uploading image file at {number.image}%
+                    <br /> 
+                    Uploading audio file at {number.song}% 
+                </div>
             </form>
             }
         </div>

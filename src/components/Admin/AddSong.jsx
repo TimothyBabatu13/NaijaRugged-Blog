@@ -23,6 +23,8 @@ const AddSong = ()=>{
         image: 0,
         song: 0
     });
+    const imageRef = useRef(null);
+    const songRef = useRef(null);
 
     function checkIfNotEmpty(obj) {
         for (let key in obj) {
@@ -135,8 +137,10 @@ const AddSong = ()=>{
         setDisable(true)
         form.songFile.forEach(item =>{
             toast.error("Uploading data to backend...Do not press anything");
+            songRef.current.style.display = "block";
             return upLoadMusic(item, (downloadURL)=>{
                 u.push(downloadURL);
+                imageRef.current.style.display = "block";
                 upLoadImage(form.imgURL, (e)=>{
                     img = e;
                     const dataToSend = {
@@ -231,9 +235,10 @@ const AddSong = ()=>{
                     <button style={{"display":"block", "marginTop":"10px", "padding":"10px 15px", "cursor":"pointer", "background":"red", "color":"white" ,"border":"none", "borderRadius":"5px"}} onClick={()=> setDisplay(prev => !prev)}>Close</button>
                 </div>
                 {/* <button onClick={upLoadAll}>Upload All</button> */}
-                <div>
+                <div ref={imageRef} style={{position: "absolute", top: "20", right: "15px",  display: "none"}}>
                     Uploading image file at {number.image}%
-                    <br /> 
+                </div>
+                <div ref={songRef} style={{position: "absolute", top: "0", right: "15px", display: "none"}}>
                     Uploading audio file at {number.song}% 
                 </div>
             </form>

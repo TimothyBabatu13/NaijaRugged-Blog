@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import Api from "../Api";
 import AddSong from "./AddSong";
+import { doc, deleteDoc} from "firebase/firestore";
+import firebaseConfig from "../../firebaseConfig";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Dashboard = (props)=>{
 
@@ -11,12 +15,17 @@ const Dashboard = (props)=>{
     const [data, setData] = useState([]);
     const navigate =  useNavigate()
     const auth = getAuth();
-    
+    const db = firebaseConfig.database;
+
+
    useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
         if (user) {
           setUserActive(true);
-          Api.readData("songs").then(item => setData(item))
+          Api.readData("songs").then(item => {
+            console.log(item)
+            setData(item)
+        })
           // ...
         } else {
           setUserActive(false);
@@ -29,7 +38,18 @@ if(!userActive){
 }
     
     const handleDelete = (id)=>{
-        console.log("...initiating delete")
+        toast.error("Deleting data...")
+        const data = async () =>{
+            await deleteDoc(doc(db, "songs", id))
+            .then(res => {
+                console.log("succesful");
+                toast.success("Data succesfully deleted");
+            })
+            .catch(err => console.log("error ocured"));
+        }
+        data(id)
+
+        
 
     }
     const handleEdit = (e)=>{
@@ -52,6 +72,7 @@ if(!userActive){
     // console.log(props.category)
     return(
         <div>
+            <ToastContainer />
             <AddSong />
             {elements}
         </div>

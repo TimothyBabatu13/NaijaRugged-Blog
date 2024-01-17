@@ -10,6 +10,7 @@ const AddSong = ()=>{
     
     const [display, setDisplay] = useState(false);
     const [listOfTrack, setListOfTrack] = useState(['a']);
+    const [disable, setDisable] = useState(false);
     const [form, setForm] = useState({
         artist: "",
         title: "",
@@ -118,6 +119,7 @@ const AddSong = ()=>{
         }
         const u = [];
         let img;
+        setDisable(true)
         form.songFile.forEach(item =>{
             toast.error("Uploading data to backend...Do not press anything");
             return upLoadMusic(item, (downloadURL)=>{
@@ -138,6 +140,7 @@ const AddSong = ()=>{
                         const sendDataNow = ()=>{
                             Api.sendData(form.type, dataToSend);
                             toast.success("Data sent succesfully");
+                            setDisable(false)
                         }
                         sendDataNow();
                 })
@@ -211,7 +214,7 @@ const AddSong = ()=>{
                     <label htmlFor="imageFile">Image File</label>
                 </div>
                 <div style={{"display":"flex", "alignItems":"center"}}>
-                    <button style={{"display":"block", "marginRight":"20px" ,"marginTop":"10px", "padding":"10px 15px", "cursor":"pointer", "background":"blue", "border":"none", "borderRadius":"5px"}} onClick={handleSubmit} type="submit">Submit</button>
+                    <button style={{"display":"block", "marginRight":"20px" ,"marginTop":"10px", "padding":"10px 15px", "cursor":"pointer", "background":"blue", "border":"none", "borderRadius":"5px"}} disabled={disable} onClick={handleSubmit} type="submit">Submit</button>
                     <button style={{"display":"block", "marginTop":"10px", "padding":"10px 15px", "cursor":"pointer", "background":"red", "color":"white" ,"border":"none", "borderRadius":"5px"}} onClick={()=> setDisplay(prev => !prev)}>Close</button>
                 </div>
                 {/* <button onClick={upLoadAll}>Upload All</button> */}
